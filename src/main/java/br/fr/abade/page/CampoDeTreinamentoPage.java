@@ -1,13 +1,13 @@
+package br.fr.abade.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class CampoDeTreinamentoPage {
+import br.fr.abade.core.BasePage;
+import br.fr.abade.core.DSL;
+import br.fr.abade.core.DriverFactory;
 
-	private DSL dsl;
-
-	public CampoDeTreinamentoPage(WebDriver driver) {
-		dsl = new DSL(driver);
-	}
+public class CampoDeTreinamentoPage extends BasePage{
+	
 		
 	public void setNome(String nome) {
 		dsl.escrever("elementosForm:nome", nome);

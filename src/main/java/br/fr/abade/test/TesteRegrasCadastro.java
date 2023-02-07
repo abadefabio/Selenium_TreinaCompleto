@@ -1,3 +1,4 @@
+package br.fr.abade.test;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -14,12 +15,17 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import br.fr.abade.core.BaseTest;
+import br.fr.abade.core.DSL;
+import br.fr.abade.core.DriverFactory;
+import br.fr.abade.page.CampoDeTreinamentoPage;
+
 
 
 @RunWith(Parameterized.class)
-public class TesteRegrasCadastro {
+public class TesteRegrasCadastro extends BaseTest{
 
-	private WebDriver driver;
+//	private WebDriver driver;
 	private DSL dsl;
 	private CampoDeTreinamentoPage page;
 	
@@ -39,18 +45,12 @@ public class TesteRegrasCadastro {
 
 	@Before
 	public void inicializar() {
-		driver = new ChromeDriver();
-		driver.manage().window().setSize(new Dimension(1000, 700));
-		driver.get("file:///"+ System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+//		DriverFactory.getDriver() = new ChromeDriver();
+//		DriverFactory.getDriver().manage().window().setSize(new Dimension(1000, 700));
+		DriverFactory.getDriver().get("file:///"+ System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 		System.getProperty("user.dir");
-		dsl = new DSL(driver);
-		page = new CampoDeTreinamentoPage(driver);
-	}
-
-	@After
-	public void finalizar() throws InterruptedException {
-		Thread.sleep(1500);
-		driver.quit();
+		dsl = new DSL();
+		page = new CampoDeTreinamentoPage();
 	}
 
 	@Parameters

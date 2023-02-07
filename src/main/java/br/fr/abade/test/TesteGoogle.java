@@ -1,3 +1,4 @@
+package br.fr.abade.test;
 
 
 import org.junit.Assert;

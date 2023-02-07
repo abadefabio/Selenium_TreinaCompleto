@@ -1,3 +1,4 @@
+package br.fr.abade.test;
 import java.util.List;
 
 import org.junit.After;
@@ -13,31 +14,30 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import br.fr.abade.core.BaseTest;
+import br.fr.abade.core.DSL;
+import br.fr.abade.core.DriverFactory;
+import br.fr.abade.page.CampoDeTreinamentoPage;
 
 
-public class TesteCampoTreinamento {
 
-	private WebDriver driver;
+public class TesteCampoTreinamento extends BaseTest{
+
+	
 	private DSL dsl;
 	private CampoDeTreinamentoPage page;		
 		
 
 	@Before
 	public void inicializar() {
-		driver = new ChromeDriver();
-		driver.manage().window().setSize(new Dimension(1000, 700));
-		driver.get("file:///"+ System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+		
+		DriverFactory.getDriver().get("file:///"+ System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 		System.getProperty("user.dir");
-		dsl = new DSL(driver);
-		page = new CampoDeTreinamentoPage(driver);
+		dsl = new DSL();
+		page = new CampoDeTreinamentoPage();
 	}
 
-	@After
-	public void finalizar() throws InterruptedException {
-		Thread.sleep(1500);
-		//driver.quit();
-	}
-	
+		
 	@Test
 	public void deveRealizarCadastroComSucesso() {
 		page.setNome("FRSystem");
@@ -146,7 +146,7 @@ public class TesteCampoTreinamento {
 	@Test
 	public void deveVerificarComboBox() {
 
-		WebElement combo = driver.findElement(By.id("elementosForm:escolaridade"));
+		WebElement combo = DriverFactory.getDriver().findElement(By.id("elementosForm:escolaridade"));
 		Select escolaridade = new Select(combo);
 
 		List<WebElement> options = escolaridade.getOptions();
@@ -166,7 +166,7 @@ public class TesteCampoTreinamento {
 	@Test
 	public void deveVerificarValoresComboMultiplo() {
 
-		WebElement combo = driver.findElement(By.id("elementosForm:esportes"));
+		WebElement combo = DriverFactory.getDriver().findElement(By.id("elementosForm:esportes"));
 		Select escolaridade = new Select(combo);
 		escolaridade.selectByVisibleText("Natacao");
 		escolaridade.selectByVisibleText("Corrida");
@@ -184,7 +184,7 @@ public class TesteCampoTreinamento {
 	@Test
 	public void deveInteragirComBotoes() {
 
-		WebElement botao = driver.findElement(By.id("buttonSimple"));
+		WebElement botao = DriverFactory.getDriver().findElement(By.id("buttonSimple"));
 		botao.click();
 
 		Assert.assertEquals("Obrigado!", botao.getAttribute("value"));		
@@ -194,21 +194,21 @@ public class TesteCampoTreinamento {
 	//	@Ignore
 	public void deveInteragirComLinks() {
 
-		WebElement link = driver.findElement(By.linkText("Voltar"));
+		WebElement link = DriverFactory.getDriver().findElement(By.linkText("Voltar"));
 		link.click();
-		Assert.assertEquals("Voltou!", driver.findElement(By.id("resultado")).getText());	
+		Assert.assertEquals("Voltou!", DriverFactory.getDriver().findElement(By.id("resultado")).getText());	
 			
 	}
 
 	@Test
 	public void deveBuscarTextosNaTelaPagina() {
 
-		Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Campo de Treinamento"));
+		Assert.assertTrue(DriverFactory.getDriver().findElement(By.tagName("body")).getText().contains("Campo de Treinamento"));
 		//verificando se o texto esta na tela pelo body pegando geral
 
-		Assert.assertEquals("Campo de Treinamento", driver.findElement(By.tagName("h3")).getText());
+		Assert.assertEquals("Campo de Treinamento", DriverFactory.getDriver().findElement(By.tagName("h3")).getText());
 		Assert.assertEquals("Cuidado onde clica, muitas armadilhas...", 
-				driver.findElement(By.className("facilAchar")).getText());		
+				DriverFactory.getDriver().findElement(By.className("facilAchar")).getText());		
 	}
 	
 	@Test
@@ -221,18 +221,18 @@ public class TesteCampoTreinamento {
 	
 	@Test
 	public void testJavaScript() {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+		JavascriptExecutor js = (JavascriptExecutor) DriverFactory.getDriver();
 //		js.executeScript("alert('Testando js via selenium')");
 		js.executeScript("document.getElementById('elementosForm:nome').value = 'Escrito via java script'");
 		js.executeScript("document.getElementById('elementosForm:sobrenome').type = 'radio'");
 		
-		WebElement element = driver.findElement(By.id("elementosForm:nome"));
+		WebElement element = DriverFactory.getDriver().findElement(By.id("elementosForm:nome"));
 		js.executeScript("arguments[0].style.border = arguments[1]", element, "solid 4px green");
 		
 	}
 	@Test
 	public void deveInteragirComFrameEscondido() {
-		WebElement frame = driver.findElement(By.id("frame2"));
+		WebElement frame = DriverFactory.getDriver().findElement(By.id("frame2"));
 		dsl.executarJS("window.scrollBy(0, arguments[0])", frame.getLocation().y);
 		dsl.entrarFrame("frame2");		
 		dsl.clicarBotao("framebutton");

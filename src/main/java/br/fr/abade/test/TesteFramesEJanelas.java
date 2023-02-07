@@ -1,3 +1,4 @@
+package br.fr.abade.test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
@@ -7,14 +8,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import br.fr.abade.core.DSL;
+import br.fr.abade.core.DriverFactory;
+
 
 
 public class TesteFramesEJanelas {
 
-	private WebDriver driver;
+//	private WebDriver driver;
 	
 	
-	DSL dsl = new DSL(driver);
+	DSL dsl = new DSL();
 	@Test
 	public void deveInteragirComFrames() {
 			
@@ -74,7 +78,7 @@ public class TesteFramesEJanelas {
 	
 	@Test
 	public void deveInteragirComFrameEscondido() {
-		WebElement frame = driver.findElement(By.id("frame2"));
+		WebElement frame = DriverFactory.getDriver().findElement(By.id("frame2"));
 		dsl.executarJS("window.scrollBy(0, arguments[0])", frame.getLocation().y);
 		dsl.entrarFrame("frame2");		
 		dsl.clicarBotao("framebutton");
